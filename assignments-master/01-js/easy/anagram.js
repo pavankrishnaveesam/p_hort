@@ -5,7 +5,13 @@
 */
 
 function isAnagram(str1, str2) {
-
+  if (str1.length !== str2.length) return false;
+  const one = str1.toUpperCase();
+  const two = str2.toUpperCase();
+  for (const x of one) {
+    if (!two.includes(x)) return false;
+  }
+  return true;
 }
 
 module.exports = isAnagram;
