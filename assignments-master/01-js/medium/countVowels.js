@@ -6,7 +6,24 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  // Your code here
+  let cnt = 0;
+  for (const ch of str) {
+    if (
+      ch === "a" ||
+      ch === "e" ||
+      ch === "i" ||
+      ch === "o" ||
+      ch === "u" ||
+      ch === "A" ||
+      ch === "E" ||
+      ch === "I" ||
+      ch === "O" ||
+      ch === "U"
+    )
+      cnt++;
+  }
+  return cnt;
 }
 
 module.exports = countVowels;

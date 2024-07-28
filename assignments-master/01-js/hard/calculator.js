@@ -16,6 +16,63 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+const math = require("mathjs");
+
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(n) {
+    this.result += n;
+  }
+
+  subtract(n) {
+    this.result -= n;
+  }
+
+  multiply(n) {
+    this.result *= n;
+  }
+
+  divide(n) {
+    if (n !== 0) {
+      this.result /= n;
+    } else {
+      throw new Error("Error");
+    }
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(expression) {
+    // Step 1: Remove extra spaces
+    const cleanedExpression = expression.replace(/\s+/g, "");
+
+    // Step 2: Validate the input expression
+    if (!/^[0-9+\-*/().]*$/.test(cleanedExpression)) {
+      throw new Error("Invalid input");
+    }
+    //mathjs does not throw an error for division by zero;
+    //instead, it returns Infinity or NaN. To handle this scenario correctly
+    if (cleanedExpression.includes("/0")) {
+      throw new Error("Cannot divide by zero");
+    }
+
+    // Step 3: Evaluate the expression using mathjs
+    try {
+      this.result = math.evaluate(cleanedExpression);
+      return this.result;
+    } catch (e) {
+      throw new Error(`Invalid expression: ${e.message}`);
+    }
+  }
+}
 
 module.exports = Calculator;
