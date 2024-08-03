@@ -1,0 +1,137 @@
+--Intrepreted        Vs                              compiled languages
+    js,python                                       c++,java
+    executes code line by line                      compiles entire code and create temp file of binary code
+    unable to catch error                           can catch errors in compile time
+    can produce partial O/P until error comesup
+    dynamic type                                    static/strict type 
+
+--Single threaded nature of JS
+  JavaScript is a single-thread language because of only one call stack.
+  It can be really easy to implement as we don’t have to deal with the complicated scenarios 
+    that arise in the multi-threaded environment like a deadlock.
+  Since JavaScript is a single-threaded language, it is synchronous in nature.
+    all the work is done line by line i.e. the first task is executed then the second task is executed, 
+    no matter how much time one task will take. 
+    This arises the problem of time wastage as well as resource wastage. 
+    These two problems are overcome by asynchronous calls, where one doesn’t wait for one call to complete 
+    instead it runs another task simultaneously. 
+    So, when we have to do things like image processing or making requests over the network like API calls, we use async calls.
+
+--Event Loops, Callback queue, and WebAPIs are part of browser but not JS
+    DOM, AJAX, and Timeout are not actually part of JavaScript but part of RunTime Environment or browser, 
+    so these can be run asynchronously within the WebAPI using the callback queue and again put in the call stack 
+    using event loop to execute.
+    EX:
+        <script> 
+	        console.log('A'); 
+	
+	        setTimeout(() => { 
+		        console.log('B'); 
+	        }, 3000); 
+		
+	        console.log('C'); 
+        </script>
+    
+    O/P:
+        A 
+        C 
+        B
+
+    Explanation:
+        When JS tries to execute the above program, it places the first statement in the call stack which gets executed and prints A 
+        in the console and it gets to pop out of the stack. Now, it places the second statement in the call stack 
+        and when it tries to execute the statement, it finds out that setTimeout() doesn’t belong to JS so it pops out the function 
+        and puts in the WebAPI to get executed there. Since the call stack is now again empty, it places the third statement 
+        in the stack and executes it thus printing C in the console.
+
+        In the meanwhile, the WebAPI executes the timeout function and places the code in the callback queue. 
+        The event loop checks if the call stack is empty or not or whether there is any statement 
+        in the callback queue that needs to be executed all the time. As soon as the event loop checks that the call stack is empty 
+        and there is something in the callback queue that needs to be executed, it places the statement in the call stack 
+        and the call stack executes the statement and prints B in the console of the browser.
+
+--DataTypes 8
+    -Simple primitive(7): Number,String,boolean,undefined,null,Bigint,Symbol ,(extra: NaN=Not A Number) 
+    -Complex primitive(1): object-{}/new Object()
+        Object consisits of array-[]/new Array()
+                            String-""/new String("John");
+        Built-in JS Objects:    String
+                                Number
+                                Boolean
+                                Object
+                                Function
+                                Array
+                                Date
+                                RegExp
+                                Error
+        Comparing two JavaScript objects always returns false.
+
+--Functions
+    function add(x, y) {
+        return x+y;
+    }   //normal syntax
+
+    const add = function (x,y) {
+      return x+y;
+    };  //function expression
+ 
+    const add=(x,y)=>{x+y}; //arrow function
+
+    const value = add(8, 2); // Calling the function
+    console.log(value);//10
+
+    -**Functions can be used the same way as you use variables.
+        // Function to convert Fahrenheit to Celsius
+        function toCelsius(fahrenheit) {
+            return (fahrenheit - 32) * 5/9;
+        }
+  
+        // Using the function to convert temperature
+        let temperatureInFahrenheit = 77;
+        let temperatureInCelsius = toCelsius(temperatureInFahrenheit);
+        let text = "The temperature is " + temperatureInCelsius + " Celsius";
+
+--Function can take function as parameter and called Callback
+    EX: setTimeout(function,timeout);
+        setInterval(function,timeout)
+
+--Promises,async-await
+    function asynchronous_operational_method() {
+        let first_promise = 
+            new Promise((resolve, reject) => resolve("Hello"));
+        let second_promise = 
+            new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(" GeeksforGeeks..");
+            }, 1000);
+        });
+        let combined_promise = 
+            Promise.all([first_promise, second_promise]);
+        return combined_promise;
+    }
+
+    async function display() {
+        let data = await asynchronous_operational_method();
+        console.log(data);
+    }
+
+    display();
+
+    Output:
+            [ 'Hello', ' GeeksforGeeks..' ]
+
+    Explanation:
+        Promise Creation:
+            Two promises are created: one resolve immediately with “Hello”, and the other resolves after 1 second with ” GeeksforGeeks..”.
+        Combining Promises:
+            The Promise.all() method combines both promises into a single promise, combined_promise.
+        Asynchronous Function:
+            The display() function is declared as async, indicating it contains asynchronous operations.
+        Awaiting Promise Resolution:
+            The await keyword pauses execution until combined_promise is resolved.
+        Logging Result:
+            The resolved array from combined_promise is logged to the console.
+        Note
+            To resolve and reject are predefined arguments by JavaScript.
+                resolve function is used when an asynchronous task is completed and returns the result.
+                reject function is used when an asynchronous task fails and returns reasons for failure.
