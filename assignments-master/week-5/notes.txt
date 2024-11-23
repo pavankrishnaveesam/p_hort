@@ -1,0 +1,27 @@
+--react foundation 
+-index.html,main.jsx,app.jsx,jsx(=javascriptXML)
+
+
+--scripts,dependencies inside package.json
+-npm init
+-npm i <library/dependency/packagename>
+
+-axios
+
+-DOM-DocumentObjectModel which is accessed as "document" the parent object of browser 
+        where everything rendered inside the browser is present
+
+--debouncing
+    const backedapi=()={
+        //somelogic
+    }
+
+    const timeout;
+    const debouncedbackendapi=()=>{
+        clearTimeout(timeout);
+        timeout=setTimeout(()=>backendapi(),1000)
+    }
+
+    //Now call this debouncedbackedapi
+
+
